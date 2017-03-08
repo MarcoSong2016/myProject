@@ -1,6 +1,7 @@
 package com.bai.dao;
 
 import com.bai.entity.SuccessKilled;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by Bai on 2017/3/6.
@@ -8,17 +9,18 @@ import com.bai.entity.SuccessKilled;
 public interface SuccessKilledDao {
 
     /**
-     * 插入购买明细，可以过滤重复
+     * 插入购买明细,可过滤重复
      * @param seckillId
      * @param userPhone
-     * @return
+     * @return插入的行数
      */
-    int  insertSuccessKilled(long seckillId, long userPhone);
+    int insertSuccessKilled(@Param("seckillId") long seckillId, @Param("userPhone") long userPhone);
+
 
     /**
-     * 根据id查询successkilled并且携带秒杀对象实体
-     * @param seckilledId
+     * 根据秒杀商品的id查询明细SuccessKilled对象(该对象携带了Seckill秒杀产品对象)
+     * @param seckillId
      * @return
      */
-    SuccessKilled queryByIdWithSeckill(long seckilledId);
+    SuccessKilled queryByIdWithSeckill(@Param("seckillId") long seckillId,@Param("userPhone") long userPhone);
 }

@@ -1,6 +1,7 @@
 package com.bai.dto;
 
 import com.bai.entity.SuccessKilled;
+import com.bai.enums.SeckillStatEnum;
 
 /**
  * Created by 宋柏 on 2017/3/8.

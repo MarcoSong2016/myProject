@@ -5,6 +5,8 @@ import com.bai.dao.SuccessKilledDao;
 import com.bai.dto.Exposer;
 import com.bai.dto.SeckillExecution;
 import com.bai.entity.Seckill;
+import com.bai.entity.SuccessKilled;
+import com.bai.enums.SeckillStatEnum;
 import com.bai.exception.RepeatKillException;
 import com.bai.exception.SeckillCloseException;
 import com.bai.exception.SeckillException;
@@ -68,6 +70,49 @@ public class SeckillServiceImpl implements SecKillService{
     }
 
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
-        return null;
+        if (md5==null||!md5.equals(getMD5(seckillId)))
+        {
+            throw new SeckillException("seckill data rewrite");//秒杀数据被重写了
+        }
+        //执行秒杀逻辑:减库存+增加购买明细
+        Date nowTime=new Date();
+
+        try{
+
+            //否则更新了库存，秒杀成功,增加明细
+            int insertCount=successKilledDao.insertSuccessKilled(seckillId,userPhone);
+            //看是否该明细被重复插入，即用户是否重复秒杀
+            if (insertCount<=0)
+            {
+                throw new RepeatKillException("seckill repeated");
+            }else {
+
+                //减库存,热点商品竞争
+                int updateCount=seckillDao.reduceNumber(seckillId,nowTime);
+                if (updateCount<=0)
+                {
+                    //没有更新库存记录，说明秒杀结束 rollback
+                    throw new SeckillCloseException("seckill is closed");
+                }else {
+                    //秒杀成功,得到成功插入的明细记录,并返回成功秒杀的信息 commit
+                    SuccessKilled successKilled=successKilledDao.queryByIdWithSeckill(seckillId,userPhone);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS,successKilled);
+                }
+
+            }
+
+
+        }catch (SeckillCloseException e1)
+        {
+            throw e1;
+        }catch (RepeatKillException e2)
+        {
+            throw e2;
+        }catch (Exception e)
+        {
+            logger.error(e.getMessage(),e);
+            //所以编译期异常转化为运行期异常
+            throw new SeckillException("seckill inner error :"+e.getMessage());
+        }
     }
 }
