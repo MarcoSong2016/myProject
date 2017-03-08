@@ -10,7 +10,7 @@ import com.bai.enums.SeckillStatEnum;
 import com.bai.exception.RepeatKillException;
 import com.bai.exception.SeckillCloseException;
 import com.bai.exception.SeckillException;
-import com.bai.service.SecKillService;
+import com.bai.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by 宋柏 on 2017/3/8.
  */
 @Service
-public class SeckillServiceImpl implements SecKillService{
+public class SeckillServiceImpl implements SeckillService {
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
 

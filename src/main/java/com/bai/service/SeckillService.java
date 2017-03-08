@@ -15,7 +15,7 @@ import java.util.List;
  * 3.返回类型(return 类型一定要友好/或者return异常，我们允许的异常)
  * Created by 宋柏 on 2017/3/8.
  */
-public interface SecKillService {
+public interface SeckillService {
     /**
      * 查询全部的秒杀记录
      * @return
