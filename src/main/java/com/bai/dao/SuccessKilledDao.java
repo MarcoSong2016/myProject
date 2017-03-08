@@ -1,6 +1,6 @@
 package com.bai.dao;
 
-import com.bai.entity.Successkilled;
+import com.bai.entity.SuccessKilled;
 
 /**
  * Created by Bai on 2017/3/6.
@@ -20,5 +20,5 @@ public interface SuccessKilledDao {
      * @param seckilledId
      * @return
      */
-    Successkilled queryByIdWithSeckill(long seckilledId);
+    SuccessKilled queryByIdWithSeckill(long seckilledId);
 }
