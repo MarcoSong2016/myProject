@@ -13,6 +13,8 @@ import com.bai.exception.SeckillException;
 import com.bai.service.SecKillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
@@ -21,12 +23,14 @@ import java.util.List;
 /**
  * Created by 宋柏 on 2017/3/8.
  */
+@Service
 public class SeckillServiceImpl implements SecKillService{
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
     private SeckillDao seckillDao;
-
+    @Autowired
     private SuccessKilledDao successKilledDao;
 
     //加入一个混淆字符串(秒杀接口)的salt，为了我避免用户猜出我们的md5值，值任意给，越复杂越好
